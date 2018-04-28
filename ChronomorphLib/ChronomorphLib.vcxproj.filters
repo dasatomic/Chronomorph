@@ -21,9 +21,21 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ApiHook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CmnHdr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Toolhelp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApiHook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
