@@ -149,12 +149,14 @@
   <ItemGroup>
     <ClInclude Include="ApiHook.h" />
     <ClInclude Include="CmnHdr.h" />
+    <ClInclude Include="LibInjector.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Toolhelp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApiHook.cpp" />
+    <ClCompile Include="LibInjector.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
