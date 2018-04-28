@@ -58,6 +58,10 @@ private:
 	// Returns address of replacement function if hooked function is requested
 	static FARPROC WINAPI GetProcAddress(HMODULE hmod, PCSTR pszProcName);
 
+	// Set of hooked implementations of time methods.
+	static void WINAPI GetLocalTime(_Out_ LPSYSTEMTIME lpSystemTime);
+	static void WINAPI GetSystemTime(_Out_ LPSYSTEMTIME lpSystemTime);
+
 private:
 	// Instantiates hooks on these functions
 	static CAPIHook sm_LoadLibraryA;
@@ -65,4 +69,8 @@ private:
 	static CAPIHook sm_LoadLibraryExA;
 	static CAPIHook sm_LoadLibraryExW;
 	static CAPIHook sm_GetProcAddress;
+
+	// Set of hook methods for time morphing.
+	static CAPIHook sm_GetLocalTime;
+	static CAPIHook sm_GetSystemTime;
 };
