@@ -14,7 +14,7 @@ bool WINAPI InjectLibAtStartup(PWSTR pszExeToStartPath, PCWSTR pszLibToInjectFil
 		PROCESS_INFORMATION pi;
 
 		bOk = CreateProcess(nullptr, pszExeToStartPath, nullptr, nullptr,
-			FALSE, CREATE_SUSPENDED, nullptr, nullptr, &si, &pi);
+			false, CREATE_SUSPENDED, nullptr, nullptr, &si, &pi);
 
 		if (!bOk)
 		{
@@ -24,6 +24,7 @@ bool WINAPI InjectLibAtStartup(PWSTR pszExeToStartPath, PCWSTR pszLibToInjectFil
 		hProcess = pi.hProcess;
 
 		// Calculate the number of bytes needed for the DLL's pathname
+		//
 		int cch = 1 + lstrlenW(pszLibToInjectFile);
 		int cb = cch * sizeof(wchar_t);
 
