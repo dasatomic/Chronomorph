@@ -3,7 +3,41 @@
 #include "stdafx.h"
 #include <Windows.h>
 
-SYSTEMTIME AddSecondsOnSystemTime(SYSTEMTIME systemTime, double seconds) {
+SYSTEMTIME AlterSystemTimeFlow(
+	SYSTEMTIME currentRealTime,
+	SYSTEMTIME relativeTimePoint,
+	double ratio)
+{
+	// TODO: This is going to be too slow, you can do better.
+	//
+	FILETIME ftCurrentRealTime;
+	FILETIME ftRelativeTimePoint;
+	SystemTimeToFileTime(&currentRealTime, &ftCurrentRealTime);
+	SystemTimeToFileTime(&relativeTimePoint, &ftRelativeTimePoint);
+
+	ULARGE_INTEGER uCurrentRealTime;
+	memcpy(&uCurrentRealTime, &ftCurrentRealTime, sizeof(uCurrentRealTime));
+
+	// TODO: Cache this.
+	//
+	ULARGE_INTEGER uRelativeTimePoint;
+	memcpy(&uRelativeTimePoint, &ftRelativeTimePoint, sizeof(uRelativeTimePoint));
+
+	assert(uCurrentRealTime.QuadPart >= uRelativeTimePoint.QuadPart);
+	LONGLONG llTimePassed = uCurrentRealTime.QuadPart - uRelativeTimePoint.QuadPart;
+
+	// TODO: Is this safe?
+	//
+	llTimePassed = static_cast<long long>(llTimePassed * ratio);
+	uCurrentRealTime.QuadPart = uRelativeTimePoint.QuadPart + llTimePassed;
+	memcpy(&ftCurrentRealTime, &uCurrentRealTime, sizeof(ftCurrentRealTime));
+	FileTimeToSystemTime(&ftCurrentRealTime, &currentRealTime);
+
+	return currentRealTime;
+}
+
+SYSTEMTIME AddSecondsOnSystemTime(SYSTEMTIME systemTime, double seconds)
+{
 	FILETIME fileTime;
 	SystemTimeToFileTime(&systemTime, &fileTime);
 

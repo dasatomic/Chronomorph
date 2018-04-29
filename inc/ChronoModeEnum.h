@@ -3,6 +3,7 @@
 enum ChronoModeEnum
 {
 	TimeOffset = 0,
+	TimeFlowRatio,
 
 	LastVal
 };
@@ -10,6 +11,7 @@ enum ChronoModeEnum
 LPCWSTR ChronoModeDesc[]
 {
 	L"ChronomorphTimeOffset",
+	L"ChronomorphTimeFlowRatio",
 };
 
 #define CHRONO_MODE_ARG_1 L"CHRONO_MODE_ARG_1"
