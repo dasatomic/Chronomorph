@@ -2,11 +2,13 @@
 #include <Windows.h>
 #include "APIHook.h"
 #include "ChronoModeEnum.h"
+#include "TimeOperations.h"
 
 #include <vector>
 
 struct InputArgs
 {
+	ChronoModeEnum chronoMode;
 	int offset = 0;
 };
 
@@ -17,8 +19,7 @@ void WINAPI GetLocalTime_Hook(_Out_ LPSYSTEMTIME lpSystemTime)
 {
 	::GetLocalTime(lpSystemTime);
 
-	int offset = g_InputArgs.offset;
-	lpSystemTime->wHour = lpSystemTime->wHour + offset;
+	*lpSystemTime = AddSecondsOnSystemTime(*lpSystemTime, static_cast<double>(g_InputArgs.offset));
 }
 
 void WINAPI GetSystemTime_Hook(_Out_ LPSYSTEMTIME lpSystemTime)
@@ -30,12 +31,12 @@ void InitializeTimeHooks()
 {
 	wchar_t envMode[MAX_PATH];
 	GetEnvironmentVariable(CHRONO_MODE_ARG, envMode, MAX_PATH);
-	ChronoModeEnum chronoMode = static_cast<ChronoModeEnum>(_wtoi(envMode));
+	g_InputArgs.chronoMode = static_cast<ChronoModeEnum>(_wtoi(envMode));
 
 	wchar_t envArg[MAX_PATH];
 	GetEnvironmentVariable(CHRONO_MODE_ARG_1, envArg, MAX_PATH);
 
-	if (chronoMode == ChronoModeEnum::TimeOffset)
+	if (g_InputArgs.chronoMode == ChronoModeEnum::TimeOffset)
 	{
 		int offset = _wtoi(envArg);
 		g_InputArgs.offset = offset;
