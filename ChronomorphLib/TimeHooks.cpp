@@ -25,6 +25,7 @@ void WINAPI GetLocalTime_Hook(_Out_ LPSYSTEMTIME lpSystemTime)
 void WINAPI GetSystemTime_Hook(_Out_ LPSYSTEMTIME lpSystemTime)
 {
 	::GetSystemTime(lpSystemTime);
+	*lpSystemTime = AddSecondsOnSystemTime(*lpSystemTime, static_cast<double>(g_InputArgs.offset));
 }
 
 void InitializeTimeHooks()
